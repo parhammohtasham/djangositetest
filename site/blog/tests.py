@@ -37,3 +37,29 @@ class BlogTest(TestCase):
         self.assertEqual(response.status_code,200)
         self.assertEqual(no_response.status_code,404)
         self.assertTemplateUsed(response,'blog/detail.html')
+
+    def test_get_absolute_url(self):
+        self.assertEqual(self.blog.get_absolute_url(),'/blog/1/')
+
+    def test_create_blog(self):
+        response = self.client.post(reverse('blog_new'),{
+            'title':'new_title',
+            'body':'new_body',
+            'author':self.user.id,
+        })
+        self.assertEqual(response.status_code,302)
+        self.assertEqual(Blog.objects.last().title,'new_title')
+        self.assertEqual(Blog.objects.last().body,'new_body')
+
+    def test_update_blog(self):
+        response=self.client.post(reverse('blog_update',args='1'),{
+            'title':'updated_title',
+            'body':'updated_body',
+        })
+        self.assertEqual(response.status_code,302)
+
+    def test_delete_blog(self):
+        response=self.client.post(reverse('blog_delete',args='1'))
+        self.assertEqual(response.status_code,302)
+
+    
