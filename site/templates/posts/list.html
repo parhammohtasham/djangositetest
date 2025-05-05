@@ -1,0 +1,16 @@
+{% extends 'pages/base.html' %}
+
+
+{% block content %}
+    <ul>
+        
+        {% for post in posts %}
+            <li>{{post.text}}</li>
+            <hr>
+        {% endfor %}
+            
+    </ul>
+    
+{% endblock content %}
+    
+    
